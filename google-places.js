@@ -49,7 +49,7 @@
             plugin.place_data = place;
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
-              renderReviews(plugin.place_data.reviews);
+              plugin.renderReviews(plugin.place_data.reviews);
               if(!!plugin.settings.rotateTime) {
                   initRotation();
               }
@@ -142,7 +142,7 @@
           return reviews;
         }
 
-        var renderReviews = function(reviews){
+        plugin.renderReviews = function(reviews){
           reviews = sort_by_date(reviews);
           reviews = filter_minimum_rating(reviews);
           var html = "";
@@ -152,7 +152,7 @@
           for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
             var date = convertTime(reviews[i].time);
-            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
+            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author-image'><img src='"+reviews[i].profile_photo_url+"'/></span><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
           };
           $element.append(html);
         }
