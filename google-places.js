@@ -145,16 +145,34 @@
         plugin.renderReviews = function(reviews){
           reviews = sort_by_date(reviews);
           reviews = filter_minimum_rating(reviews);
-          var html = "";
+          var html = [];
           var row_count = (plugin.settings.max_rows > 0)? plugin.settings.max_rows - 1 : reviews.length - 1;
           // make sure the row_count is not greater than available records
           row_count = (row_count > reviews.length-1)? reviews.length -1 : row_count;
           for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
             var date = convertTime(reviews[i].time);
-            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author-image'><img src='"+reviews[i].profile_photo_url+"'/></span><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
+            var item = [
+				"<div class='review-item'>",
+					"<div class='review-item-wrapper'>",
+						"<div class='review-photo'>",
+							"<img src='"+reviews[i].profile_photo_url+"'/>",
+						"</div>",
+						"<div class='review-data'>",
+							"<div class='review-data-wrapper'>",
+								"<div class='review-author'>"+reviews[i].author_name+"</div>",
+								stars,
+								"<div class='review-date'>"+date+"</div>",
+								"<div class='review-relative-date'>"+reviews[i].relative_time_description+"</div>",
+								"<div class='review-text'>"+reviews[i].text+"</div>",
+							"</div>",
+						"</div>",
+					"</div>",
+				"</div>",
+            ];
+            html = html.concat(item);
           };
-          $element.append(html);
+          $element.append(html.join(''));
         }
         
         var renderHours = function(element, data){
