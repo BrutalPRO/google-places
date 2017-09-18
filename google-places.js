@@ -87,7 +87,13 @@
 
           });
         }
-
+		
+		var nl2br = function (str, isXhtml) {
+		  if (typeof str === 'undefined' || str === null) { return '' }
+		  var breakTag = (isXhtml || typeof isXhtml === 'undefined') ? '<br ' + '/>' : '<br>';
+		  return (str + '').replace(/(\r\n|\n\r|\r|\n)/g, breakTag + '$1')
+		}
+        
         var capture_element = function(element){
           if(element instanceof jQuery){
             return element;
@@ -161,10 +167,11 @@
 						"<div class='review-data'>",
 							"<div class='review-data-wrapper'>",
 								"<div class='review-author'>"+reviews[i].author_name+"</div>",
-								stars,
-								"<div class='review-date'>"+date+"</div>",
-								"<div class='review-relative-date'>"+reviews[i].relative_time_description+"</div>",
-								"<div class='review-text'>"+reviews[i].text+"</div>",
+								"<div class='review-meta'>",
+									stars,
+									"<span class='review-relative-date'>"+reviews[i].relative_time_description+"</span>",
+								"</div>",
+								"<div class='review-text'>"+nl2br(reviews[i].text)+"</div>",
 							"</div>",
 						"</div>",
 					"</div>",
